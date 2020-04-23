@@ -32,13 +32,14 @@ class UserModel extends Model
     }
 
     public function saveUser($data){
-        $query = 'INSERT INTO users (login,email,password,reg_ip,reg_date) VALUES (:login,:email,:password,:ip,NOW())';
+        $query = 'INSERT INTO users (login,email,password,reg_ip,reg_uagent,reg_date) VALUES (:login,:email,:password,:ip,:ua,NOW())';
         $statement = $this->db->prepare($query);
         $data = [
             'login' => strtolower($data['login']),
             'email' => $data['email'],
             'password' => password_hash($data['password'], PASSWORD_DEFAULT),
             'ip' => $_SERVER['REMOTE_ADDR'],
+            'ua' => $_SERVER['HTTP_USER_AGENT'],
         ];
         $statement->execute($data);
         return $statement;
