@@ -1,0 +1,25 @@
+body {
+    font-family: sans-serif;
+}
+
+.error-block {
+    margin-top: 300px;
+
+}
+
+.error-title {
+    text-align: center;
+    font-size: 70px;
+    margin: 0;
+
+}
+.error-desc {
+    text-align: center;
+    font-size: 30px;
+    letter-spacing: 7px;
+    margin: 0;
+}
+
+.code {
+    color: #ff0000;
+}

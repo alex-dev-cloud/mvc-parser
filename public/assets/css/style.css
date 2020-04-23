@@ -1,0 +1,97 @@
+
+
+/* --------------------VIDEO BACKGROUND------------------- */
+
+.video-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+}
+
+@media (max-aspect-ratio: 16/9){
+    .video-container video {
+        height: 100%;
+        width: auto;
+    }
+}
+
+.filter {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.content-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main-title {
+    text-align: center;
+    font-size: 60px;
+}
+
+.card {
+    margin: 30px 0;
+    padding: 20px 25px;
+    position: absolute;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.65);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.80);
+}
+
+.form-title {
+    margin-bottom: 35px;
+}
+
+.form-control.error {
+    border: 2px solid #ff0000;
+    border-radius: 0;
+}
+
+.form-control.success {
+    border: 2px solid #3aa30d;
+    border-radius: 0;
+}
+
+
+.error-box {
+    height: 20px;
+    margin: 0;
+    padding: 0 10px;
+    font-size: 14px;
+    background: #f00;
+    color: #fff;
+    visibility: hidden;
+}
+
+.error-box.error {
+    visibility: visible;
+}

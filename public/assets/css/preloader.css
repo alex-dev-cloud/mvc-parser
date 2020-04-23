@@ -1,0 +1,56 @@
+.preloader-overlay {
+    background: #adffe0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+.preloader {
+    width: 200px;
+    height: 200px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    border: 20px solid #052838;
+    border-top: 20px solid #adffe0;
+    border-radius: 50%;
+    z-index: 1001;
+    opacity: 1;
+    transition: opacity 1s;
+    animation: 1s loading infinite linear;
+}
+
+.preloader-overlay.done {
+    opacity: 0;
+}
+
+.preloader-overlay.done .preloader {
+    opacity: 0;
+}
+
+.preloader-overlay.hide {
+    visibility: hidden;
+    display: none;
+}
+
+.preloader-overlay.hide .preloader {
+    visibility: hidden;
+    display: none;
+}
+
+@keyframes loading {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
