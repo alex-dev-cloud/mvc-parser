@@ -53,12 +53,12 @@ class UserController extends Controller
                     if ($user = $DB->getOneByLogin($data['login'])) {
                         if (password_verify($data['password'], $user->password)) $response['success'] = true;
                         else {
-                            $response['loginError'] = 'Wrong password or email';
-                            $response['passwordError'] = 'Wrong password or email';
+                            $response['loginError'] = 'Wrong login or password';
+                            $response['passwordError'] = 'Wrong login or password';
                         }
                     } else {
-                        $response['loginError'] = 'Wrong password or email';
-                        $response['passwordError'] = 'Wrong password or email';
+                        $response['loginError'] = 'Wrong login or password';
+                        $response['passwordError'] = 'Wrong login or password';
                     };
                 }
 
