@@ -39,7 +39,7 @@
 
 
 .content-container {
-    padding-top: 100px;
+    padding: 100px 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -49,7 +49,7 @@
 }
 
 .center {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -76,7 +76,7 @@
 
 .users-block {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 30px auto;
 }
 
 .card .btn {
