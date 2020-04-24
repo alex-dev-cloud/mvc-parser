@@ -21,8 +21,8 @@ class Session
         unset($_SESSION['user']);
     }
 
-    public static function setMessage($key, $value){
-        $_SESSION['user']['message'][$key] = $value;
+    public static function setMessage($message){
+        $_SESSION['message'] = $message;
     }
 
     public static function getMessage($key){
@@ -30,8 +30,8 @@ class Session
         else return false;
     }
 
-    public static function unsetMessage($key){
-        unset($_SESSION['user']['message'][$key]);
+    public static function unsetMessage(){
+        unset($_SESSION['message']);
     }
 
     public static function checkUser(){

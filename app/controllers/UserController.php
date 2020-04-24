@@ -16,7 +16,6 @@ class UserController extends Controller
     public function index(){
         $DB = new UserModel();
 
-
         $users = $DB->getAllUsers();
 
         $data = [
@@ -25,6 +24,31 @@ class UserController extends Controller
         ];
         $this->view->render('users', $data);
     }
+
+    public function download(){
+        $DB = new UserModel();
+        $users = $DB->getAllUsers();
+        $html = "<table><thead><tr><th>Id</th><th>Login</th><th>Email</th><th>Signed</th>";
+        if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= "<th>Ip</th><th>Device</th>";
+        $html .= "</tr></thead><tbody>";
+        foreach ($users as $user) {
+            $html .= "<tr><td>$user->id</td><td>$user->login</td><td>$user->email</td><td>$user->reg_date</td>";
+            if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= "<td>$user->reg_ip</td><td>$user->reg_uagent</td>";
+            $html .= "</tr>";
+        }
+        $html .= "</tbody></table>";
+        $html .= "<style>";
+        $html .= "table {width: 100%; border-collapse: collapse;}";
+        $html .= "table, td, th {border: 1px solid #000;}";
+        $html .= "td, th {padding: 5px;}";
+        $html .= "th {text-align: center;}";
+        $html .= "</style>";
+
+        $this->pdf->SetTitle('Users');
+        $this->pdf->WriteHTML($html);
+        $this->pdf->Output();
+    }
+
     public function login(){
         if (Session::checkUser()) {
             header('Location: /');
@@ -36,7 +60,6 @@ class UserController extends Controller
                     'loginError' => false,
                     'passwordError' => false,
                 ];
-
 
                 $DB = new UserModel();
 
@@ -149,9 +172,19 @@ class UserController extends Controller
                     $response['passwordRepeatError'] = 'Passwords does not match';
                 }
 
-
                 if ($response['success']) {
                     $DB->saveUser($data);
+                    try {
+                        $this->mail->setFrom(SMTP_EMAIL, HOST_NAME);
+                        $this->mail->addAddress($data['email'], $data['login']);
+                        $this->mail->isHTML(true);
+                        $this->mail->Subject = 'Code activation';
+                        $this->mail->Body    = '<p>Hello, '.$data['login'].'. This is your activation code: <a href="'.URL.'?code='.md5($data['login']).'">'.md5($data['login']).'</a></p>';
+                        $this->mail->send();
+                    } catch(\Exception $exception) {
+                        die("Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}");
+                    }
+                    Session::setMessage('* Check your email to confirm registration!');
                 }
                 echo json_encode($response);
             }

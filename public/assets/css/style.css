@@ -37,7 +37,9 @@
     background-color: rgba(0, 0, 0, 0);
 }
 
+
 .content-container {
+    padding-top: 100px;
     position: absolute;
     top: 0;
     left: 0;
@@ -66,12 +68,19 @@
 }
 
 .card {
-    margin: 30px 0;
     padding: 20px 25px;
-    position: absolute;
     box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.65);
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.80);
+}
+
+.users-block {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card .btn {
+    color: #ffffff;
 }
 
 .form-title {
@@ -88,6 +97,11 @@
     border-radius: 0;
 }
 
+.message-info {
+    color: #265f26;
+    margin: 0;
+    padding: 0;
+}
 
 .error-box {
     height: 20px;

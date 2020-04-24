@@ -1,7 +1,7 @@
 <div class="content-container">
     <?php if(!empty($data['users'])):?>
-        <div class="card center table-responsive-md">
-            <table class="table">
+        <div class="card users-block table-responsive-md">
+            <table class="table users-table">
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -31,6 +31,7 @@
                 <?php endforeach;?>
                 </tbody>
             </table>
+            <a class="btn btn-secondary" href="<?= URL . 'user/download'?>">Download</a>
         </div>
     <?php endif;?>
 </div>

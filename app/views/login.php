@@ -10,8 +10,10 @@
                 <div class="form-group">
                     <input name="password" type="password" class="form-control" id="password-input" placeholder="Enter your password:">
                     <div class="error-box" id="password-error"></div>
+                    <?php if (!empty($_SESSION['message'])):?>
+                        <div class="message-info text-center"><?= $_SESSION['message']?></div>
+                    <?php endif;?>
                 </div>
-                <div class="error-message text-center"></div>
                 <div class="mb-2">
                     <p class="text-muted input-message">You don't have an account? <a href="<?= URL ?>user/registration">Click to sign up</a></p>
                 </div>
