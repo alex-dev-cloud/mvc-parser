@@ -32,10 +32,10 @@
                 </tbody>
             </table>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 mb-3">
                     <a class="btn btn-secondary btn-block" href="<?= URL . 'user/download'?>">Download all</a>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 mb-3">
                     <a class="btn btn-info btn-block" href="<?= URL . 'user/download/activated'?>">Download activated</a>
                 </div>
             </div>
