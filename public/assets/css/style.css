@@ -79,6 +79,17 @@
     margin: 30px auto;
 }
 
+.movies-block h2 {
+    border-bottom: 3px solid #000000;
+    padding-bottom: 15px;
+}
+
+.movies-block {
+    background: rgba(255,255,255,0.7);
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
 .card .btn {
     color: #ffffff;
 }
