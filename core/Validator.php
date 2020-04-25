@@ -10,16 +10,16 @@ class Validator
        return empty($field);
    }
 
-   public static function isLoginNotValid($login){
-       return mb_strlen($login) < 3 || mb_strlen($login) > 16;
-   }
+    public static function isLoginNotValid($login){
+        return !preg_match('/^[a-z0-9_\.-]{4,16}$/i', $login);
+    }
 
    public static function isEmailNotValid($email){
        return !filter_var($email, FILTER_VALIDATE_EMAIL);
    }
 
    public static function isPasswordNotValid($password){
-       return mb_strlen($password) < 7 || mb_strlen($password) > 16;
+       return !preg_match('/^[a-z0-9_]{8,16}$/i', $password);
    }
 
    public static function isPasswordsDoesNotMatch($password, $passwordRepeat){

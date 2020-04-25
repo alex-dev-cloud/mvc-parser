@@ -4,26 +4,30 @@
 namespace app\controllers;
 
 
+use app\models\MovieModel;
 use core\Controller;
 use PHPHtmlParser\Dom;
 
-class PageController extends Controller
+class MovieController extends Controller
 {
     public function index(){
 
         $data = [
-            'title' => 'Pages',
+            'title' => 'Movies',
         ];
 
-        $this->view->render('page', $data);
+        $DB = new MovieModel();
+        $data['movies'] = $DB->getMovies();
+
+        $this->view->render('movie', $data);
     }
 
     public function parser(){
+        $DB = new MovieModel();
+        $DB->deleteMovies();
         $dom = new Dom();
-        $dom->loadFromUrl('https://www.ivi.ru/movies/page');
+        $dom->loadFromUrl('https://www.ivi.ru/movies/');
         $films = $dom->find('.poster-badge');
-
-        $result = [];
 
         for ($i=0; $i < 30 ; $i++) {
             if (!$films[$i]) break;
@@ -36,12 +40,8 @@ class PageController extends Controller
             $dom2->loadFromUrl('https://www.ivi.ru'.$href);
             $desc = $dom2->find('.clause__text p')->innerHtml;
 
-            $result[] = 'id: ' . $id;
-            $result[] = 'name: ' . $name;
-            $result[] = 'img: ' . $img;
-            $result[] = 'desc: ' . $desc;
-
+            $DB->saveMovie($id,$name,$img,$desc);
         }
-        var_dump($result);
+        header('Location: /movie');
     }
 }

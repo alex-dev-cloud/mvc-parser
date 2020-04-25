@@ -27,22 +27,23 @@ class UserController extends Controller
 
     public function download(){
         $DB = new UserModel();
-        $users = $DB->getAllUsers();
-        $html = "<table><thead><tr><th>Id</th><th>Login</th><th>Email</th><th>Signed</th>";
-        if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= "<th>Ip</th><th>Device</th>";
-        $html .= "</tr></thead><tbody>";
+        $users = $_SERVER['REQUEST_URI'] == '/user/download/activated' ? $DB->getActivatedUsers() : $DB->getAllUsers();
+
+        $html = '<table><thead><tr><th>Id</th><th>Login</th><th>Email</th><th>Signed</th>';
+        if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= '<th>Ip</th><th>Device</th>';
+        $html .= '</tr></thead><tbody>';
         foreach ($users as $user) {
             $html .= "<tr><td>$user->id</td><td>$user->login</td><td>$user->email</td><td>$user->reg_date</td>";
             if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= "<td>$user->reg_ip</td><td>$user->reg_uagent</td>";
-            $html .= "</tr>";
+            $html .= '</tr>';
         }
-        $html .= "</tbody></table>";
-        $html .= "<style>";
-        $html .= "table {width: 100%; border-collapse: collapse;}";
-        $html .= "table, td, th {border: 1px solid #000;}";
-        $html .= "td, th {padding: 5px;}";
-        $html .= "th {text-align: center;}";
-        $html .= "</style>";
+        $html .= '</tbody></table>';
+        $html .= '<style>';
+        $html .= 'table {width: 100%; border-collapse: collapse;}';
+        $html .= 'table, td, th {border: 1px solid #000;}';
+        $html .= 'td, th {padding: 5px;}';
+        $html .= 'th {text-align: center;}';
+        $html .= '</style>';
 
         $this->pdf->SetTitle('Users');
         $this->pdf->WriteHTML($html);
@@ -57,8 +58,8 @@ class UserController extends Controller
             if (!empty($_POST)) {
                 $response = [
                     'success' => false,
-                    'loginError' => false,
-                    'passwordError' => false,
+                    'loginError' => NULL,
+                    'passwordError' => NULL,
                 ];
 
                 $DB = new UserModel();
@@ -123,12 +124,14 @@ class UserController extends Controller
                     'passwordRepeat' => Secure::treatData($_POST['passwordRepeat']),
                 ];
 
+                $data['token'] = password_hash($data['login'], PASSWORD_DEFAULT) . time();
+
                 $response = [
                     'success' => true,
-                    'loginError' => false,
-                    'emailError' => false,
-                    'passwordError' => false,
-                    'passwordRepeatError' => false,
+                    'loginError' => NULL,
+                    'emailError' => NULL,
+                    'passwordError' => NULL,
+                    'passwordRepeatError' => NULL,
                 ];
 
                 #============ USER DATA VALIDATION =======================================#
@@ -151,7 +154,7 @@ class UserController extends Controller
                 }  elseif (Validator::isEmailNotValid($data['email'])) {
                     $response['success'] = false;
                     $response['emailError'] = 'Email is not valid';
-                }   elseif ($DB->getOneByEmail($data['email'])) {
+                }  elseif ($DB->getOneByEmail($data['email'])) {
                     $response['success'] = false;
                     $response['emailError'] = 'User with this email already exists';
                 }
@@ -179,7 +182,7 @@ class UserController extends Controller
                         $this->mail->addAddress($data['email'], $data['login']);
                         $this->mail->isHTML(true);
                         $this->mail->Subject = 'Code activation';
-                        $this->mail->Body    = '<p>Hello, '.$data['login'].'. This is your activation code: <a href="'.URL.'?code='.md5($data['login']).'">'.md5($data['login']).'</a></p>';
+                        $this->mail->Body    = '<p>Hello, '.$data['login'].'. This is your activation code: <a href="'.URL.'?code='.urlencode($data['token']).'">'.$data['token'].'</a></p>';
                         $this->mail->send();
                     } catch(\Exception $exception) {
                         die("Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}");

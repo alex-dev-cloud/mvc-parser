@@ -1,1 +1,18 @@
-<a class="btn btn-info" href="<?=URL . 'page/parser'?>">Refresh movie list</a>
+<div class="movies-block"><a class="btn btn-info" href="<?=URL . 'movie/parser'?>">Refresh movie list</a></div>
+<?php if(!empty($data['movies'])):?>
+    <?php foreach ($data['movies'] as $movie):?>
+        <div class="movies-block">
+            <div class="row">
+                <div class="col-md-4 movie-img-block"><img src="<?= $movie->image?>"></div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12"><h2 class="text-center" ><?= $movie->name?></h2></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><?= $movie->description?></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach;?>
+<?php endif;?>

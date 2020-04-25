@@ -4,7 +4,10 @@
 namespace app\controllers;
 
 
+use app\models\UserModel;
 use core\Controller;
+use core\Secure;
+use core\Session;
 
 class HomeController extends Controller
 {
@@ -13,6 +16,13 @@ class HomeController extends Controller
         $data = [
             'title' => 'Home',
         ];
+
+        if (isset($_GET['code'])) {
+            $token = urldecode(Secure::treatData($_GET['code']));
+            $DB = new UserModel();
+            $DB->activate($token);
+            Session::unsetMessage();
+        }
 
         $this->view->render('home', $data);
     }

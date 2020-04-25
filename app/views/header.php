@@ -28,7 +28,7 @@
                 <a href="<?=URL.'home'?>" class="nav-link <?=($uri == '/home' || $uri == '/')?'active':''?>">Home</a>
             </li>
             <li class="nav-item">
-                <a href="<?=URL.'page'?>" class="nav-link <?=($uri == '/page')?'active':''?>">Pages</a>
+                <a href="<?=URL.'movie'?>" class="nav-link <?=($uri == '/movie')?'active':''?>">Movies</a>
             </li>
             <li class="nav-item">
                 <a href="<?=URL.'user'?>" class="nav-link <?=($uri == '/user')?'active':''?>">User</a>

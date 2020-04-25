@@ -21,7 +21,7 @@
                         <td><?=$user->id?></td>
                         <td><?=$user->login;?></td>
                         <td><?=$user->email?></td>
-                        <td><?=$user->is_active?></td>
+                        <td><?=$user->is_active ? 'activated' : 'not activated' ?></td>
                         <td><?=$user->reg_date?></td>
                         <?php if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1):?>
                             <th scope="col"><?=$user->reg_ip?></th>
@@ -31,7 +31,14 @@
                 <?php endforeach;?>
                 </tbody>
             </table>
-            <a class="btn btn-secondary" href="<?= URL . 'user/download'?>">Download</a>
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn btn-secondary btn-block" href="<?= URL . 'user/download'?>">Download all</a>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-info btn-block" href="<?= URL . 'user/download/activated'?>">Download activated</a>
+                </div>
+            </div>
         </div>
     <?php endif;?>
 </div>
