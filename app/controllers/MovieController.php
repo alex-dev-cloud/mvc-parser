@@ -17,8 +17,16 @@ class MovieController extends Controller
         ];
 
         $DB = new MovieModel();
-        $data['movies'] = $DB->getMovies();
+        $totalMovies = $DB->countMovies()->total;
+        $perPage = 5;
+        $totalPages = $totalMovies/$perPage;
 
+        $pageCurrent = (isset($_GET['page']) && !empty(intval($_GET['page']))) ? $_GET['page'] : 1;
+        if ($pageCurrent > $totalPages) $pageCurrent = $totalPages;
+        if ($pageCurrent < 1) $pageCurrent = 1;
+
+        $offset = ($pageCurrent - 1) * $perPage;
+        $data['movies'] = $DB->getMovies($offset, $perPage);
         $this->view->render('movie', $data);
     }
 
