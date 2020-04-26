@@ -40,16 +40,6 @@ define('TABLES', array(
            PRIMARY KEY (`id`),
            UNIQUE INDEX `id_UNIQUE` (`id` ASC));',
 
-    'sample' =>
-          'CREATE TABLE IF NOT EXISTS `sampleheroku` (
-          `id` INT NOT NULL AUTO_INCREMENT,
-          `movie_id` INT NOT NULL,
-          `name` VARCHAR(256) NOT NULL,
-          `image` VARCHAR(128) NOT NULL,
-          `description` MEDIUMTEXT NULL,
-           PRIMARY KEY (`id`),
-           UNIQUE INDEX `id_UNIQUE` (`id` ASC));',
-
     ));
 
 
