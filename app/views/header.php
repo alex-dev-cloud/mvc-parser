@@ -31,7 +31,7 @@
                 <a href="<?=URL.'movie'?>" class="nav-link <?=($uri == '/movie')?'active':''?>">Movies</a>
             </li>
             <li class="nav-item">
-                <a href="<?=URL.'user'?>" class="nav-link <?=($uri == '/user')?'active':''?>">User</a>
+                <a href="<?=URL.'user'?>" class="nav-link <?=($uri == '/user')?'active':''?>">Users</a>
             </li>
             <?php if (!isset($_SESSION['user'])):?>
                 <li class="nav-item">
