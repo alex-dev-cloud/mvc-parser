@@ -1,4 +1,9 @@
-<div class="movies-block"><a class="btn btn-info" href="<?=URL . 'movie/parser'?>">Refresh movie list</a></div>
+<div class="movies-block">
+    <div class="row">
+        <div class="col-md-4"><a class="btn btn-info" href="<?=URL . 'movie/parser'?>">Refresh movie list</a></div>
+        <div class="col-md-8"><?=$data['paginator']?></div>
+    </div>
+</div>
 <?php if(!empty($data['movies'])):?>
     <?php foreach ($data['movies'] as $movie):?>
         <div class="movies-block">
@@ -16,3 +21,9 @@
         </div>
     <?php endforeach;?>
 <?php endif;?>
+<div class="movies-block">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-8"><?=$data['paginator']?></div>
+    </div>
+</div>

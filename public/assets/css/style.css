@@ -96,6 +96,39 @@
     text-align: center;
 }
 
+.paginator {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.movies-block .btn {
+    margin: 10px 0;
+}
+
+.paginator li {
+    list-style: none;
+    border: 2px solid #000000;
+    margin: 10px 0;
+    margin-right: 15px;
+}
+
+.paginator li:last-child {
+    margin-right: 0;
+}
+
+.paginator a {
+    display: block;
+    padding: 5px 15px;
+}
+
+.paginator .cur-page {
+    display: block;
+    padding: 5px 15px;
+}
+
 .card .btn {
     color: #ffffff;
 }

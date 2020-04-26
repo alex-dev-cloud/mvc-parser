@@ -6,6 +6,7 @@ namespace app\controllers;
 
 use app\models\MovieModel;
 use core\Controller;
+use core\Paginator;
 use PHPHtmlParser\Dom;
 
 class MovieController extends Controller
@@ -27,6 +28,7 @@ class MovieController extends Controller
 
         $offset = ($pageCurrent - 1) * $perPage;
         $data['movies'] = $DB->getMovies($offset, $perPage);
+        $data['paginator'] = new Paginator($totalMovies, $perPage, $pageCurrent, 'movie');
         $this->view->render('movie', $data);
     }
 
