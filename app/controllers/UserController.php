@@ -12,12 +12,17 @@ use core\Validator;
 
 class UserController extends Controller
 {
+    private $DB;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->DB = new UserModel();
+    }
 
     public function index(){
-        $DB = new UserModel();
 
-        $users = $DB->getAllUsers();
-
+        $users = $this->DB->getAllUsers();
         $data = [
             'title' => 'Users',
             'users' => $users,
@@ -26,8 +31,7 @@ class UserController extends Controller
     }
 
     public function download(){
-        $DB = new UserModel();
-        $users = $_SERVER['REQUEST_URI'] == '/user/download/activated' ? $DB->getActivatedUsers() : $DB->getAllUsers();
+        $users = $_SERVER['REQUEST_URI'] == '/user/download/activated' ? $this->DB->getActivatedUsers() : $this->DB->getAllUsers();
 
         $html = '<table><thead><tr><th>Id</th><th>Login</th><th>Email</th><th>Signed</th>';
         if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= '<th>Ip</th><th>Device</th>';
@@ -37,6 +41,7 @@ class UserController extends Controller
             if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= "<td>$user->reg_ip</td><td>$user->reg_uagent</td>";
             $html .= '</tr>';
         }
+
         $html .= '</tbody></table>';
         $html .= '<style>';
         $html .= 'table {width: 100%; border-collapse: collapse;}';
@@ -62,8 +67,6 @@ class UserController extends Controller
                     'passwordError' => NULL,
                 ];
 
-                $DB = new UserModel();
-
                 $data = [
                     'title' => 'Registration',
                     'login' => Secure::treatData($_POST['login']),
@@ -74,7 +77,7 @@ class UserController extends Controller
                 if (Validator::isEmpty($data['password'])) $response['passwordError'] = 'Please, fill this field';
 
                 if (!$response['loginError'] && !$response['passwordError']) {
-                    if ($user = $DB->getOneByLogin($data['login'])) {
+                    if ($user = $this->DB->getOneByLogin($data['login'])) {
                         if (password_verify($data['password'], $user->password)) $response['success'] = true;
                         else {
                             $response['loginError'] = 'Wrong login or password';
@@ -114,8 +117,6 @@ class UserController extends Controller
         } else {
             if (!empty($_POST)) {
 
-                $DB = new UserModel();
-
                 $data = [
                     'title' => 'Registration',
                     'login' => Secure::treatData($_POST['login']),
@@ -143,7 +144,7 @@ class UserController extends Controller
                 } elseif (Validator::isLoginNotValid($data['login'])) {
                     $response['success'] = false;
                     $response['loginError'] = 'Login is not valid';
-                } elseif ($DB->getOneByLogin($data['login'])) {
+                } elseif ($this->DB->getOneByLogin($data['login'])) {
                     $response['success'] = false;
                     $response['loginError'] = 'Login already exists';
                 }
@@ -154,7 +155,7 @@ class UserController extends Controller
                 }  elseif (Validator::isEmailNotValid($data['email'])) {
                     $response['success'] = false;
                     $response['emailError'] = 'Email is not valid';
-                }  elseif ($DB->getOneByEmail($data['email'])) {
+                }  elseif ($this->DB->getOneByEmail($data['email'])) {
                     $response['success'] = false;
                     $response['emailError'] = 'User with this email already exists';
                 }
@@ -176,7 +177,7 @@ class UserController extends Controller
                 }
 
                 if ($response['success']) {
-                    $DB->saveUser($data);
+                    $this->DB->saveUser($data);
                     try {
                         $this->mail->setFrom(SMTP_EMAIL, HOST_NAME);
                         $this->mail->addAddress($data['email'], $data['login']);
