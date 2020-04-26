@@ -20,7 +20,7 @@ class MovieController extends Controller
         $DB = new MovieModel();
         $totalMovies = $DB->countMovies()->total;
         $perPage = 5;
-        $totalPages = $totalMovies/$perPage;
+        $totalPages = ceil($totalMovies/$perPage);
 
         $pageCurrent = (isset($_GET['page']) && !empty(intval($_GET['page']))) ? $_GET['page'] : 1;
         if ($pageCurrent > $totalPages) $pageCurrent = $totalPages;

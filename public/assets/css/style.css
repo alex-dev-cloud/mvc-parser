@@ -110,7 +110,7 @@
 
 .paginator li {
     list-style: none;
-    border: 2px solid rgba(152, 163, 177, 0.85);
+    border: 1px solid rgba(152, 163, 177, 0.85);
     border-radius: 5px;
     margin: 10px 0;
     margin-right: 15px;

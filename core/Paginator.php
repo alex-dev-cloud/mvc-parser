@@ -12,7 +12,7 @@ class Paginator
 
     public function __construct($total, $perPage, $pageCurrent, $url)
     {
-        $this->totalPages = $total/$perPage;
+        $this->totalPages = ceil($total/$perPage);
         $this->pageCurrent = $pageCurrent;
         $this->url = $url;
     }
