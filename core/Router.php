@@ -6,7 +6,7 @@ namespace core;
 class Router
 
 {
-    public static function init()
+    static public function init()
     {
         $url = (isset($_GET['url'])) ? $_GET['url'] : 'home';
         $url = explode('/', $url);

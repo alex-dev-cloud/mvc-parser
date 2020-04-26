@@ -28,15 +28,10 @@ class MovieController extends Controller
 
         $totalMovies = $this->MODEL->countMovies()->total;
         $perPage = 5;
-        $totalPages = ceil($totalMovies/$perPage);
 
-        $pageCurrent = (isset($_GET['page']) && !empty(intval($_GET['page']))) ? $_GET['page'] : 1;
-        if ($pageCurrent > $totalPages) $pageCurrent = $totalPages;
-        if ($pageCurrent < 1) $pageCurrent = 1;
-
-        $offset = ($pageCurrent - 1) * $perPage;
+        $data['paginator'] = new Paginator($totalMovies, $perPage, 'movie');
+        $offset = ($data['paginator']->getCurrentPage() - 1) * $perPage;
         $data['movies'] = $this->MODEL->getMovies($offset, $perPage);
-        $data['paginator'] = new Paginator($totalMovies, $perPage, $pageCurrent, 'movie');
         $this->view->render('movie', $data);
     }
 

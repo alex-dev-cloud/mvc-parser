@@ -4,37 +4,37 @@ namespace core;
 
 class Session
 {
-    public static function init(){
+    static public function init(){
         session_start();
     }
 
-    public static function destroy(){
+    static public function destroy(){
         session_destroy();
     }
 
-    public static function setUser($user = true){
+    static public function setUser($user = true){
         $_SESSION['user'] = $user;
     }
 
-    public static function stopSession(){
+    static public function stopSession(){
         session_destroy();
         unset($_SESSION['user']);
     }
 
-    public static function setMessage($message){
+    static public function setMessage($message){
         $_SESSION['message'] = $message;
     }
 
-    public static function getMessage($key){
+    static public function getMessage($key){
         if (isset($_SESSION['user']['message'][$key])) return $_SESSION['user']['message'][$key];
         else return false;
     }
 
-    public static function unsetMessage(){
+    static public function unsetMessage(){
         unset($_SESSION['message']);
     }
 
-    public static function checkUser(){
+    static public function checkUser(){
         return isset($_SESSION['user']);
     }
 }
