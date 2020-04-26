@@ -20,8 +20,5 @@ class Model
             echo '<h1>Data base connection error</h1>';
         }
 
-        foreach (TABLES as $TABLE) {
-            if (!empty($TABLE)) $this->db->exec($TABLE);
-        }
     }
 }
