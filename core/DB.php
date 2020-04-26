@@ -7,10 +7,11 @@ namespace core;
 class DB
 {
     private static $instance = NULL;
+    private function __construct(){}
     private function __clone(){}
     private function __wakeup(){}
 
-    static public function getInstance(){
+    static private function getInstance(){
         if (is_null(self::$instance)) {
             $dsn = DB_DRIVER . ':host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=' . DB_CHARSET;
             $login = DB_LOGIN;
