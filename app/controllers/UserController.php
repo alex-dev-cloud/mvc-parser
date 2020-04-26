@@ -12,17 +12,17 @@ use core\Validator;
 
 class UserController extends Controller
 {
-    private $DB;
+    private $MODEL;
 
     public function __construct()
     {
         parent::__construct();
-        $this->DB = new UserModel();
+        $this->MODEL = new UserModel();
     }
 
     public function index(){
 
-        $users = $this->DB->getAllUsers();
+        $users = $this->MODEL->getAllUsers();
         $data = [
             'title' => 'Users',
             'users' => $users,
@@ -31,7 +31,7 @@ class UserController extends Controller
     }
 
     public function download(){
-        $users = $_SERVER['REQUEST_URI'] == '/user/download/activated' ? $this->DB->getActivatedUsers() : $this->DB->getAllUsers();
+        $users = $_SERVER['REQUEST_URI'] == '/user/download/activated' ? $this->MODEL->getActivatedUsers() : $this->MODEL->getAllUsers();
 
         $html = '<table><thead><tr><th>Id</th><th>Login</th><th>Email</th><th>Signed</th>';
         if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= '<th>Ip</th><th>Device</th>';
@@ -77,7 +77,7 @@ class UserController extends Controller
                 if (Validator::isEmpty($data['password'])) $response['passwordError'] = 'Please, fill this field';
 
                 if (!$response['loginError'] && !$response['passwordError']) {
-                    if ($user = $this->DB->getOneByLogin($data['login'])) {
+                    if ($user = $this->MODEL->getOneByLogin($data['login'])) {
                         if (password_verify($data['password'], $user->password)) $response['success'] = true;
                         else {
                             $response['loginError'] = 'Wrong login or password';
@@ -144,7 +144,7 @@ class UserController extends Controller
                 } elseif (Validator::isLoginNotValid($data['login'])) {
                     $response['success'] = false;
                     $response['loginError'] = 'Login is not valid';
-                } elseif ($this->DB->getOneByLogin($data['login'])) {
+                } elseif ($this->MODEL->getOneByLogin($data['login'])) {
                     $response['success'] = false;
                     $response['loginError'] = 'Login already exists';
                 }
@@ -155,7 +155,7 @@ class UserController extends Controller
                 }  elseif (Validator::isEmailNotValid($data['email'])) {
                     $response['success'] = false;
                     $response['emailError'] = 'Email is not valid';
-                }  elseif ($this->DB->getOneByEmail($data['email'])) {
+                }  elseif ($this->MODEL->getOneByEmail($data['email'])) {
                     $response['success'] = false;
                     $response['emailError'] = 'User with this email already exists';
                 }
@@ -177,7 +177,7 @@ class UserController extends Controller
                 }
 
                 if ($response['success']) {
-                    $this->DB->saveUser($data);
+                    $this->MODEL->saveUser($data);
                     try {
                         $this->mail->setFrom(SMTP_EMAIL, HOST_NAME);
                         $this->mail->addAddress($data['email'], $data['login']);

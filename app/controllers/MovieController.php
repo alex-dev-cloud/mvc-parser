@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\models\MovieDB;
 use app\models\MovieModel;
 use core\Controller;
 use core\Paginator;
@@ -11,12 +12,12 @@ use PHPHtmlParser\Dom;
 
 class MovieController extends Controller
 {
-    private $DB;
+    private $MODEL;
 
     public function __construct()
     {
         parent::__construct();
-        $this->DB = new MovieModel();
+        $this->MODEL = new MovieModel();
     }
 
     public function index(){
@@ -25,7 +26,7 @@ class MovieController extends Controller
             'title' => 'Movies',
         ];
 
-        $totalMovies = $this->DB->countMovies()->total;
+        $totalMovies = $this->MODEL->countMovies()->total;
         $perPage = 5;
         $totalPages = ceil($totalMovies/$perPage);
 
@@ -34,13 +35,13 @@ class MovieController extends Controller
         if ($pageCurrent < 1) $pageCurrent = 1;
 
         $offset = ($pageCurrent - 1) * $perPage;
-        $data['movies'] = $this->DB->getMovies($offset, $perPage);
+        $data['movies'] = $this->MODEL->getMovies($offset, $perPage);
         $data['paginator'] = new Paginator($totalMovies, $perPage, $pageCurrent, 'movie');
         $this->view->render('movie', $data);
     }
 
     public function parser(){
-        $this->DB->deleteMovies();
+        $this->MODEL->deleteMovies();
         $dom = new Dom();
         $dom->loadFromUrl('https://www.ivi.ru/movies/');
         $films = $dom->find('.poster-badge');
@@ -56,7 +57,7 @@ class MovieController extends Controller
             $dom2->loadFromUrl('https://www.ivi.ru'.$href);
             $desc = $dom2->find('.clause__text p')->innerHtml;
 
-            $this->DB->saveMovie($id,$name,$img,$desc);
+            $this->MODEL->saveMovie($id,$name,$img,$desc);
         }
         header('Location: /movie');
     }

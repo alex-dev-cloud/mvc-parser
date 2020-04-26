@@ -3,14 +3,13 @@
 
 namespace app\models;
 
+use core\DB;
 
-use core\Model;
-
-class MovieModel extends Model
+class MovieModel
 {
     public function saveMovie($id, $name, $img, $desc){
         $query = 'INSERT INTO movies (movie_id, name, image, description) VALUES (:id,:name,:img,:desc)';
-        $statement = $this->db->prepare($query);
+        $statement = DB::prepare($query);
 
         $data = [
             'id' => $id,
@@ -18,24 +17,23 @@ class MovieModel extends Model
             'img' => $img,
             'desc' => $desc,
         ];
-
         return $statement->execute($data);
     }
 
     public function deleteMovies(){
         $query = 'DELETE FROM movies';
-        return $this->db->exec($query);
+        return DB::exec($query);
     }
 
     public function getMovies($offset, $amount){
         $query = "SELECT movie_id,name,image,description FROM movies LIMIT $offset, $amount";
-        $statement = $this->db->query($query);
+        $statement = DB::query($query);
         return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
     public function countMovies(){
         $query = 'SELECT COUNT(*) as `total` FROM movies';
-        $statement = $this->db->query($query);
+        $statement = DB::query($query);
         return $statement->fetch(\PDO::FETCH_OBJ);
     }
 }

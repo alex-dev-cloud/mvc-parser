@@ -19,8 +19,8 @@ class HomeController extends Controller
 
         if (isset($_GET['code'])) {
             $token = urldecode(Secure::treatData($_GET['code']));
-            $DB = new UserModel();
-            $DB->activate($token);
+            $MODEL = new UserModel();
+            $MODEL->activate($token);
             Session::unsetMessage();
         }
 
