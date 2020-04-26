@@ -110,7 +110,8 @@
 
 .paginator li {
     list-style: none;
-    border: 2px solid #000000;
+    border: 2px solid rgba(152, 163, 177, 0.85);
+    border-radius: 5px;
     margin: 10px 0;
     margin-right: 15px;
 }
@@ -121,11 +122,21 @@
 
 .paginator a {
     display: block;
+    background-color: transparent;
+    color: #000000;
     padding: 5px 15px;
+    transition: background-color 0.2s;
+}
+
+.paginator a:hover {
+    background-color: rgba(160, 174, 186, 0.6);
+    text-decoration: none;
 }
 
 .paginator .cur-page {
     display: block;
+    background: #00a2b9;
+    color: #ffffff;
     padding: 5px 15px;
 }
 
