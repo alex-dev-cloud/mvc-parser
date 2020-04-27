@@ -1,6 +1,6 @@
 <div class="movies-block">
     <div class="row">
-        <div class="col-md-4"><a class="btn btn-info" href="<?=URL . 'movie/parser'?>">Refresh movie list</a></div>
+        <div class="col-md-4 d-flex justify-content-center"><a class="btn btn-danger" href="<?=URL . 'movie/parser'?>">Refresh movie list</a></div>
         <div class="col-md-8"><?=$data['paginator']?></div>
     </div>
 </div>
