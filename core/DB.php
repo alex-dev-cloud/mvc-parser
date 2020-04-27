@@ -6,7 +6,7 @@ namespace core;
 
 class DB
 {
-    private static $instance = NULL;
+    static private $instance = NULL;
     private function __construct(){}
     private function __clone(){}
     private function __wakeup(){}
