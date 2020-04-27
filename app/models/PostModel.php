@@ -9,7 +9,7 @@ use core\DB;
 class PostModel
 {
     public function getPosts($offset, $amount){
-        $query = "SELECT * FROM posts LIMIT $offset, $amount";
+        $query = "SELECT p.id, p.title, p.created, p.content, u.login FROM posts p INNER JOIN users u ON p.user_id = u.id LIMIT $offset, $amount";
         $statement = DB::query($query);
         return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
@@ -30,6 +30,18 @@ class PostModel
             'user' => $data['user'],
         ];
 
-        $statement->execute($data);
+        return $statement->execute($data);
     }
+
+    public function deletePost($id){
+        $query = 'DELETE FROM posts WHERE id = :id';
+        $statement = DB::prepare($query);
+
+        $data = [
+            'id' => $id,
+        ];
+
+        return $statement->execute($data);
+    }
+
 }

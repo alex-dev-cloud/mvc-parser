@@ -26,8 +26,12 @@
 </div>
 <?php if(!empty($data['posts'])):?>
     <?php foreach ($data['posts'] as $post):?>
+
         <div class="post-block">
             <h3 class="text-center"><?=$post->title?></h3>
+            <p><?=$post->content?></p>
+            <span><?=date('d-m-Y H:i:s', $post->created)?></span>
+            <span><?=$post->login?></span>
         </div>
     <?php endforeach;?>
 <?php endif;?>

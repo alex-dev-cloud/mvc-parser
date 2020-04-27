@@ -38,10 +38,10 @@ class MovieController extends Controller
     public function parser(){
         $this->MODEL->deleteMovies();
         $dom = new Dom();
-        $dom->loadFromUrl('https://www.ivi.ru/movies/');
+        $dom->loadFromUrl('https://www.ivi.ru/collections/popular-movies');
         $films = $dom->find('.poster-badge');
 
-        for ($i=0; $i < 30 ; $i++) {
+        for ($i=0; $i < 40 ; $i++) {
             if (!$films[$i]) break;
             $name = $films[$i]->find('.name')->innerHtml;
             $img = $films[$i]->find('img')->getAttribute('src');

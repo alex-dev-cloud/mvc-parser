@@ -5,7 +5,7 @@ require_once dirname(__DIR__) . '/configs/_database.php';
 require_once dirname(__DIR__) . '/configs/_smtp.php';
 require_once dirname(__DIR__) . '/configs/_main.php';
 
-require_once  dirname(__DIR__) . '/core/helpers.php';
+require_once dirname(__DIR__) . '/helpers.php';
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
