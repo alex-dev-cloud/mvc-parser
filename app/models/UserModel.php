@@ -10,11 +10,13 @@ class UserModel
 {
 
     public function getAllUsers(){
-        return DB::query('SELECT * FROM users')->fetchAll(\PDO::FETCH_OBJ);
+        $query = 'SELECT * FROM users';
+        return DB::query($query)->fetchAll(\PDO::FETCH_OBJ);
     }
 
     public function getActivatedUsers(){
-        return DB::query("SELECT * FROM users WHERE is_active = '1'")->fetchAll(\PDO::FETCH_OBJ);
+        $query = "SELECT * FROM users WHERE is_active = '1'";
+        return DB::query($query)->fetchAll(\PDO::FETCH_OBJ);
     }
 
     public function getOneByLogin($login){

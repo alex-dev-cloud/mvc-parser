@@ -22,13 +22,16 @@ define('TABLES', array(
 
     'posts' =>
           'CREATE TABLE IF NOT EXISTS `posts` (
-          `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-          `titel` VARCHAR(45) NOT NULL,
-          `body` MEDIUMTEXT NOT NULL,
-          `created` DATE NOT NULL,
-          `user_id` INT NOT NULL,
+          `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+          `title` varchar(45) NOT NULL,
+          `content` mediumtext,
+          `created` varchar(45) NOT NULL,
+          `user_id` int(10) unsigned DEFAULT NULL,
            PRIMARY KEY (`id`),
-           UNIQUE INDEX `id_UNIQUE` (`id` ASC));',
+           UNIQUE KEY `id_UNIQUE` (`id`),
+           KEY `user_id_idx` (`user_id`),
+           CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
 
     'movies' =>
           'CREATE TABLE IF NOT EXISTS `movies` (

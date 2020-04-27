@@ -1,7 +1,3 @@
-const error = 'alert alert-danger';
-const success = 'alert alert-success';
-
-
 $('button[name="submit"]').click(function (e) {
     e.preventDefault();
     let login = $('#login-input').val();

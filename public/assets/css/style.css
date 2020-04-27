@@ -180,3 +180,23 @@
 .error-box.error {
     visibility: visible;
 }
+
+.post-block {
+    width: 100%;
+    background: rgba(255,255,255,0.7);
+    border-bottom: 3px solid #000000;
+    border-top: 3px solid #000000;
+    padding: 15px 20px;
+    margin: 15px 0;
+}
+
+.post-title {
+    width: 100%;
+}
+
+#postContent {
+    width: 100%;
+    resize: none;
+    margin-bottom: 0;
+}
+
