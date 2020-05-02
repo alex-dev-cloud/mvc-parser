@@ -1,5 +1,6 @@
 <?php
 
+use core\Logger;
 use core\Session;
 use core\Router;
 

@@ -6,6 +6,7 @@ namespace app\controllers;
 
 use app\models\UserModel;
 use core\Controller;
+use core\Logger;
 use core\Secure;
 use core\Session;
 
