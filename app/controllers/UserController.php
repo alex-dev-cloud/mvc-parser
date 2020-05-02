@@ -12,17 +12,17 @@ use core\Validator;
 
 class UserController extends Controller
 {
-    private $MODEL;
+    private $model;
 
     public function __construct()
     {
         parent::__construct();
-        $this->MODEL = new UserModel();
+        $this->model = new UserModel();
     }
 
     public function index(){
 
-        $users = $this->MODEL->getAllUsers();
+        $users = $this->model->getAllUsers();
         $data = [
             'title' => 'Users',
             'users' => $users,
@@ -31,7 +31,7 @@ class UserController extends Controller
     }
 
     public function download(){
-        $users = $_SERVER['REQUEST_URI'] == '/user/download/activated' ? $this->MODEL->getActivatedUsers() : $this->MODEL->getAllUsers();
+        $users = $_SERVER['REQUEST_URI'] == '/user/download/activated' ? $this->model->getActivatedUsers() : $this->model->getAllUsers();
 
         $html = '<table><thead><tr><th>Id</th><th>Login</th><th>Email</th><th>Signed</th>';
         if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= '<th>Ip</th><th>Device</th>';
@@ -68,7 +68,7 @@ class UserController extends Controller
                     'password' => Secure::treatData($_POST['password']),
                 ];
 
-                $user = $this->MODEL->getOneByLogin($data['login']);
+                $user = $this->model->getOneByLogin($data['login']);
 
                 $errors = [];
 
@@ -134,7 +134,7 @@ class UserController extends Controller
                     $errors['loginError'] = 'Please, fill ths field';
                 } elseif (Validator::isLoginNotValid($data['login'])) {
                     $errors['loginError'] = 'Login is not valid';
-                } elseif ($this->MODEL->getOneByLogin($data['login'])) {
+                } elseif ($this->model->getOneByLogin($data['login'])) {
                     $errors['loginError'] = 'Login already exists';
                 }
                 #----------------email validation-----------------------------------------#
@@ -142,7 +142,7 @@ class UserController extends Controller
                     $errors['emailError'] = 'Please, fill ths field';
                 }  elseif (Validator::isEmailNotValid($data['email'])) {
                     $errors['emailError'] = 'Email is not valid';
-                }  elseif ($this->MODEL->getOneByEmail($data['email'])) {
+                }  elseif ($this->model->getOneByEmail($data['email'])) {
                     $errors['emailError'] = 'User with this email already exists';
                 }
                 #---------------password validation---------------------------------------#
@@ -159,7 +159,7 @@ class UserController extends Controller
                 }
 
                 if (!count($errors)) {
-                    $this->MODEL->saveUser($data);
+                    $this->model->saveUser($data);
                     try {
                         $this->mail->setFrom(SMTP_EMAIL, HOST_NAME);
                         $this->mail->addAddress($data['email'], $data['login']);
