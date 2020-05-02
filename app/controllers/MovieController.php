@@ -7,6 +7,7 @@ namespace app\controllers;
 use app\models\MovieDB;
 use app\models\MovieModel;
 use core\Controller;
+use core\Logger;
 use core\Paginator;
 use PHPHtmlParser\Dom;
 
@@ -36,7 +37,7 @@ class MovieController extends Controller
     }
 
     public function parser(){
-
+        Logger::putLog('heroku', 'parser start...');
         ini_set('max_execution_time', 180);
 
         $dom = new Dom();
@@ -55,7 +56,9 @@ class MovieController extends Controller
             $desc = $dom2->find('.clause__text p')->innerHtml;
 
             $this->model->saveMovie($id,$name,$img,$desc);
+            Logger::putLog('heroku', "save to database - $i");
         }
+        Logger::putLog('heroku', 'parser finish');
         header('Location: /movie');
     }
 }
