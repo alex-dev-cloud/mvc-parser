@@ -36,7 +36,6 @@ class MovieController extends Controller
     }
 
     public function parser(){
-        $this->MODEL->deleteMovies();
         $dom = new Dom();
         $dom->loadFromUrl('https://www.ivi.ru/collections/popular-movies');
         $films = $dom->find('.poster-badge');

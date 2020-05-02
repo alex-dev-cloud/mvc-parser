@@ -61,11 +61,6 @@ class UserController extends Controller
         } else {
 
             if (!empty($_POST)) {
-                $response = [
-                    'success' => false,
-                    'loginError' => NULL,
-                    'passwordError' => NULL,
-                ];
 
                 $data = [
                     'title' => 'Registration',
@@ -73,26 +68,29 @@ class UserController extends Controller
                     'password' => Secure::treatData($_POST['password']),
                 ];
 
-                if (Validator::isEmpty($data['login'])) $response['loginError'] = 'Please, fill this field';
-                if (Validator::isEmpty($data['password'])) $response['passwordError'] = 'Please, fill this field';
+                $user = $this->MODEL->getOneByLogin($data['login']);
 
-                if (!$response['loginError'] && !$response['passwordError']) {
-                    if ($user = $this->MODEL->getOneByLogin($data['login'])) {
-                        if (password_verify($data['password'], $user->password)) $response['success'] = true;
-                        else {
-                            $response['loginError'] = 'Wrong login or password';
-                            $response['passwordError'] = 'Wrong login or password';
-                        }
-                    } else {
-                        $response['loginError'] = 'Wrong login or password';
-                        $response['passwordError'] = 'Wrong login or password';
-                    };
+                $errors = [];
+
+                if (Validator::isEmpty($data['login'])) $errors['loginError'] = 'Please, fill this field';
+                if (Validator::isEmpty($data['password'])) $errors['passwordError'] = 'Please, fill this field';
+
+                if (!count($errors) && !$user || !count($errors) && !password_verify($data['password'], $user->password)) {
+                    $errors['loginError'] = 'Wrong login or password';
+                    $errors['passwordError'] = 'Wrong login or password';
                 }
 
-                if ($response['success']) {
+                if (!count($errors)) {
                     Session::setUser($user);
                 }
+
+                $response = [
+                    'success' => !count($errors),
+                    'errors' => $errors,
+                ];
+
                 echo json_encode($response);
+
             } else {
                 $data = [
                     'title' => 'Login',
@@ -127,56 +125,40 @@ class UserController extends Controller
 
                 $data['token'] = password_hash($data['login'], PASSWORD_DEFAULT) . time();
 
-                $response = [
-                    'success' => true,
-                    'loginError' => NULL,
-                    'emailError' => NULL,
-                    'passwordError' => NULL,
-                    'passwordRepeatError' => NULL,
-                ];
-
                 #============ USER DATA VALIDATION =======================================#
+
+                $errors = [];
 
                 #---------------login validation------------------------------------------#
                 if (Validator::isEmpty($data['login'])) {
-                    $response['success'] = false;
-                    $response['loginError'] = 'Please, fill ths field';
+                    $errors['loginError'] = 'Please, fill ths field';
                 } elseif (Validator::isLoginNotValid($data['login'])) {
-                    $response['success'] = false;
-                    $response['loginError'] = 'Login is not valid';
+                    $errors['loginError'] = 'Login is not valid';
                 } elseif ($this->MODEL->getOneByLogin($data['login'])) {
-                    $response['success'] = false;
-                    $response['loginError'] = 'Login already exists';
+                    $errors['loginError'] = 'Login already exists';
                 }
                 #----------------email validation-----------------------------------------#
                 if (Validator::isEmpty($data['email'])) {
-                    $response['success'] = false;
-                    $response['emailError'] = 'Please, fill ths field';
+                    $errors['emailError'] = 'Please, fill ths field';
                 }  elseif (Validator::isEmailNotValid($data['email'])) {
-                    $response['success'] = false;
-                    $response['emailError'] = 'Email is not valid';
+                    $errors['emailError'] = 'Email is not valid';
                 }  elseif ($this->MODEL->getOneByEmail($data['email'])) {
-                    $response['success'] = false;
-                    $response['emailError'] = 'User with this email already exists';
+                    $errors['emailError'] = 'User with this email already exists';
                 }
                 #---------------password validation---------------------------------------#
                 if (Validator::isEmpty($data['password'])) {
-                    $response['success'] = false;
-                    $response['passwordError'] = 'Please, fill ths field';
+                    $errors['passwordError'] = 'Please, fill ths field';
                 }  elseif (Validator::isPasswordNotValid($data['password'])) {
-                    $response['success'] = false;
-                    $response['passwordError'] = 'Password is not valid';
+                    $errors['passwordError'] = 'Password is not valid';
                 }
                 #--------------passwordRepeat validation----------------------------------#
                 if (Validator::isEmpty($data['passwordRepeat'])) {
-                    $response['success'] = false;
-                    $response['passwordRepeatError'] = 'Please, fill ths field';
+                    $errors['passwordRepeatError'] = 'Please, fill ths field';
                 }  elseif (Validator::isPasswordsDoesNotMatch($data['password'], $data['passwordRepeat'])) {
-                    $response['success'] = false;
-                    $response['passwordRepeatError'] = 'Passwords does not match';
+                    $errors['passwordRepeatError'] = 'Passwords does not match';
                 }
 
-                if ($response['success']) {
+                if (!count($errors)) {
                     $this->MODEL->saveUser($data);
                     try {
                         $this->mail->setFrom(SMTP_EMAIL, HOST_NAME);
@@ -190,6 +172,12 @@ class UserController extends Controller
                     }
                     Session::setMessage('* Check your email to confirm registration!');
                 }
+
+                $response = [
+                    'success' => !count($errors),
+                    'errors' => $errors,
+                ];
+
                 echo json_encode($response);
             }
             else {

@@ -29,12 +29,9 @@
                 <a href="<?=URL.'movie'?>" class="nav-link <?=($uri == '/movie')?'active':''?>">Movies</a>
             </li>
             <li class="nav-item">
-                <a href="<?=URL.'post'?>" class="nav-link <?=($uri == '/post')?'active':''?>">Posts</a>
-            </li>
-            <li class="nav-item">
                 <a href="<?=URL.'user'?>" class="nav-link <?=($uri == '/user')?'active':''?>">Users</a>
             </li>
-            <?php if (!isset($_SESSION['user'])):?>
+            <?php if (!\core\Session::checkUser()):?>
                 <li class="nav-item">
                     <a href="<?=URL.'user/login'?>" class="nav-link <?=($uri == '/user/login')?'active':''?>">Sign in</a>
                 </li>

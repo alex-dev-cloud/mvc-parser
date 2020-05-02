@@ -9,7 +9,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Activated</th>
                     <th scope="col">Signed</th>
-                    <?php if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1):?>
+                    <?php if(\core\Session::checkUser() && $_SESSION['user']->role == 1):?>
                         <th scope="col">Ip</th>
                         <th scope="col">Device</th>
                     <?php endif;?>
@@ -23,7 +23,7 @@
                         <td><?=$user->email?></td>
                         <td><?=$user->is_active ? 'activated' : 'not activated' ?></td>
                         <td><?=$user->reg_date?></td>
-                        <?php if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1):?>
+                        <?php if(\core\Session::checkUser() && $_SESSION['user']->role == 1):?>
                             <th scope="col"><?=$user->reg_ip?></th>
                             <th scope="col"><?=$user->reg_uagent?></th>
                         <?php endif;?>

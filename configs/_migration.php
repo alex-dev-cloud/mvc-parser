@@ -20,19 +20,6 @@ define('TABLES', array(
            UNIQUE KEY `email_UNIQUE` (`email`)
          ) ENGINE=InnoDB DEFAULT CHARSET=utf8;',
 
-    'posts' =>
-          'CREATE TABLE IF NOT EXISTS `posts` (
-          `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-          `title` varchar(45) NOT NULL,
-          `content` mediumtext,
-          `created` varchar(45) NOT NULL,
-          `user_id` int(10) unsigned DEFAULT NULL,
-           PRIMARY KEY (`id`),
-           UNIQUE KEY `id_UNIQUE` (`id`),
-           KEY `user_id_idx` (`user_id`),
-           CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-         ) ENGINE=InnoDB DEFAULT CHARSET=utf8',
-
     'movies' =>
           'CREATE TABLE IF NOT EXISTS `movies` (
           `id` INT NOT NULL AUTO_INCREMENT,

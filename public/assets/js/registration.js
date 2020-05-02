@@ -22,23 +22,23 @@ $('button[name="submit"]').click(function (e) {
         },
         success: function (data) {
             console.log(data)
-            if (data.success) document.location.href = '/user/login';
-
-            else {
-                if (data.loginError) {
-                    $('#login-error').text(data.loginError).addClass("error");
+            if  (data.success && !data.errors.length) {
+                document.location.href = '/user/login';
+            } else {
+                if (data.errors.loginError) {
+                    $('#login-error').text(data.errors.loginError).addClass("error");
                     $('#login-input').addClass('error').removeClass("success");
                 }
-                if (data.emailError) {
-                    $('#email-error').text(data.emailError).addClass("error");
+                if (data.errors.emailError) {
+                    $('#email-error').text(data.errors.emailError).addClass("error");
                     $('#email-input').addClass('error').removeClass("success");
                 }
-                if (data.passwordError) {
-                    $('#password-error').text(data.passwordError).addClass("error");
+                if (data.errors.passwordError) {
+                    $('#password-error').text(data.errors.passwordError).addClass("error");
                     $('#password-input').addClass('error').removeClass("success");
                 }
-                if (data.passwordRepeatError) {
-                    $('#passwordRepeat-error').text(data.passwordRepeatError).addClass("error");
+                if (data.errors.passwordRepeatError) {
+                    $('#passwordRepeat-error').text(data.errors.passwordRepeatError).addClass("error");
                     $('#password-repeat-input').addClass('error').removeClass("success");
                 }
             }

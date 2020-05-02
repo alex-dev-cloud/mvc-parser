@@ -15,17 +15,18 @@ $('button[name="submit"]').click(function (e) {
             login: login,
             password: password,
         },
+
         success: function (data) {
             console.log(data)
-            if (data.success) document.location.href = '/';
-
-            else {
-                if (data.loginError) {
-                    $('#login-error').text(data.loginError).addClass("error");
+            if (data.success && !data.errors.length) {
+                document.location.href = '/';
+            } else {
+                if (data.errors.loginError) {
+                    $('#login-error').text(data.errors.loginError).addClass("error");
                     $('#login-input').addClass('error').removeClass("success");
                 }
-                if (data.passwordError) {
-                    $('#password-error').text(data.passwordError).addClass("error");
+                if (data.errors.passwordError) {
+                    $('#password-error').text(data.errors.passwordError).addClass("error");
                     $('#password-input').addClass('error').removeClass("success");
                 }
             }
