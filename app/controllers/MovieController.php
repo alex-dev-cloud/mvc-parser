@@ -36,6 +36,9 @@ class MovieController extends Controller
     }
 
     public function parser(){
+
+        ini_set('max_execution_time', 180);
+
         $dom = new Dom();
         $dom->loadFromUrl('https://www.ivi.ru/collections/popular-movies');
         $films = $dom->find('.poster-badge');
