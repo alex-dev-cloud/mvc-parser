@@ -5,6 +5,8 @@ namespace app\controllers;
 
 
 use app\models\UserModel;
+use app\views\templates\MailTemplate;
+use app\views\templates\UsersTemplate;
 use core\Controller;
 use core\Secure;
 use core\Session;
@@ -32,23 +34,7 @@ class UserController extends Controller
 
     public function download(){
         $users = $_SERVER['REQUEST_URI'] == '/user/download/activated' ? $this->model->getActivatedUsers() : $this->model->getAllUsers();
-
-        $html = '<table><thead><tr><th>Id</th><th>Login</th><th>Email</th><th>Signed</th>';
-        if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= '<th>Ip</th><th>Device</th>';
-        $html .= '</tr></thead><tbody>';
-        foreach ($users as $user) {
-            $html .= "<tr><td>$user->id</td><td>$user->login</td><td>$user->email</td><td>$user->reg_date</td>";
-            if(!empty($_SESSION['user']) && $_SESSION['user']->role == 1) $html .= "<td>$user->reg_ip</td><td>$user->reg_uagent</td>";
-            $html .= '</tr>';
-        }
-
-        $html .= '</tbody></table>';
-        $html .= '<style>';
-        $html .= 'table {width: 100%; border-collapse: collapse;}';
-        $html .= 'table, td, th {border: 1px solid #000;}';
-        $html .= 'td, th {padding: 5px;}';
-        $html .= 'th {text-align: center;}';
-        $html .= '</style>';
+        $html = new UsersTemplate($users);
 
         $this->pdf->SetTitle('Users');
         $this->pdf->WriteHTML($html);
@@ -165,7 +151,8 @@ class UserController extends Controller
                         $this->mail->addAddress($data['email'], $data['login']);
                         $this->mail->isHTML(true);
                         $this->mail->Subject = 'Code activation';
-                        $this->mail->Body    = '<p>Hello, '.$data['login'].'. This is your activation code: <a href="'.URL.'?code='.urlencode($data['token']).'">'.$data['token'].'</a></p>';
+                        $mail =  new MailTemplate($data);
+                        $this->mail->Body = $mail->getHTML();
                         $this->mail->send();
                     } catch(\Exception $exception) {
                         die("Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}");

@@ -1,0 +1,26 @@
+parser start...		2020-05-02 23:24:46
+save to database - 0		2020-05-02 23:24:48
+save to database - 1		2020-05-02 23:24:50
+save to database - 2		2020-05-02 23:24:53
+save to database - 3		2020-05-02 23:24:56
+save to database - 4		2020-05-02 23:24:56
+save to database - 5		2020-05-02 23:24:57
+save to database - 6		2020-05-02 23:25:00
+save to database - 7		2020-05-02 23:25:02
+save to database - 8		2020-05-02 23:25:03
+save to database - 9		2020-05-02 23:25:05
+save to database - 10		2020-05-02 23:25:07
+save to database - 11		2020-05-02 23:25:09
+save to database - 12		2020-05-02 23:25:10
+save to database - 13		2020-05-02 23:25:12
+save to database - 14		2020-05-02 23:25:14
+save to database - 15		2020-05-02 23:25:17
+save to database - 16		2020-05-02 23:25:18
+save to database - 17		2020-05-02 23:25:20
+save to database - 18		2020-05-02 23:25:22
+save to database - 19		2020-05-02 23:25:24
+save to database - 20		2020-05-02 23:25:25
+save to database - 21		2020-05-02 23:25:26
+save to database - 22		2020-05-02 23:25:27
+save to database - 23		2020-05-02 23:25:29
+parser finish		2020-05-02 23:25:29
