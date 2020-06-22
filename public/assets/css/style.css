@@ -162,6 +162,7 @@
 .form-control.error {
     border: 2px solid #ff0000;
     border-radius: 0;
+
 }
 
 .form-control.success {
@@ -180,8 +181,8 @@
     margin: 0;
     padding: 0 10px;
     font-size: 14px;
-    background: #f00;
-    color: #fff;
+    background: #ff0000;
+    color: #ffffff;
     visibility: hidden;
 }
 
